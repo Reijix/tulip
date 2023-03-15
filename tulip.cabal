@@ -1,0 +1,33 @@
+cabal-version:      2.4
+name:               tulip
+version:            0.1.0.0
+
+-- A short (one-line) description of the package.
+synopsis: A small functional language, close to the lambda calculus
+
+-- A longer description of the package.
+description: Just a students study project. I'm trying to learn how compilers for functional languages work and am learning by doing.
+
+-- A URL where users can report bugs.
+-- bug-reports:
+
+-- The license under which the package is released.
+license: MIT
+author:             Leon Vatthauer
+maintainer:         leon.vatthauer@fau.de
+
+-- A copyright notice.
+-- copyright:
+category: compiler
+
+executable tulip
+    main-is:          Main.hs
+
+    -- Modules included in this executable, other than Main.
+    other-modules:    Parser, Syntax, Lexer, PrettyPrint
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:    base ^>=4.16.4.0, parsec, optparse-applicative, text
+    hs-source-dirs:   app, app/parser
+    default-language: Haskell2010
