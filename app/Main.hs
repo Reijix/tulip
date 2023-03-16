@@ -27,6 +27,7 @@ import PrettyPrint (ppr)
 import Data.Text
 import System.IO (IOMode (ReadMode), hGetContents, openFile)
 import Compiler
+import Evaluator
 
 data CmdOption = CmdOption
   { sourceFile :: String,
@@ -75,5 +76,7 @@ run (CmdOption sourceFile ppr) = do
 
   -- do compilation
   let compiled = compile prog
-  print compiled
+  
+  --print compiled
+  print $ Evaluator.run compiled
   return ()

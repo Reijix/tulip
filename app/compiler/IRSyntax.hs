@@ -5,14 +5,6 @@ import Syntax
 type Addr = Int
 type Code = [Instruction]
 
-data Node
-    = NInt Int
-    | NApp Addr Addr
-    | NGlobal Int [Instruction]
-    | NInd Addr
-    | NData Int [Addr]
-    deriving (Show)
-
 data Instruction
     = PushInt Int
     | PushGlobal Identifier
@@ -20,11 +12,12 @@ data Instruction
     | MkApp
     | Unwind
     | Update Int
-    | Pack Int Int
+    | Pack Identifier Int
     | Split Int
     | Casejump [(Identifier, Code)]
     | Slide Int
     | Eval
     | Alloc Int
     | Pop Int
+    | Add | Sub | Mul | Div
     deriving (Show)
