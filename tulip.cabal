@@ -24,10 +24,10 @@ executable tulip
     main-is:          Main.hs
 
     -- Modules included in this executable, other than Main.
-    other-modules:    Parser, Syntax, Lexer, PrettyPrint, IRSyntax
+    other-modules:    Parser, Syntax, Lexer, PrettyPrint, IRSyntax, Compiler
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
-    build-depends:    base ^>=4.16.4.0, parsec, optparse-applicative, text
+    build-depends:    base ^>=4.16.4.0, parsec, optparse-applicative, text, containers
     hs-source-dirs:   app, app/parser, app/ir
     default-language: Haskell2010

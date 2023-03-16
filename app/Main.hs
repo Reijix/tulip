@@ -26,6 +26,7 @@ import Parser (parse)
 import PrettyPrint (ppr)
 import Data.Text
 import System.IO (IOMode (ReadMode), hGetContents, openFile)
+import Compiler
 
 data CmdOption = CmdOption
   { sourceFile :: String,
@@ -71,3 +72,8 @@ run (CmdOption sourceFile ppr) = do
 
   when ppr (putStrLn . unpack $ PrettyPrint.ppr prog)
   unless ppr $ print prog
+
+  -- do compilation
+  let compiled = compile prog
+  print compiled
+  return ()
