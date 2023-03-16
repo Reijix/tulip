@@ -2,27 +2,26 @@
 A small functional programming language
 
 ## Language constructs
-**Global declarations** are just assigning a name to an expression. The left side of a '=' can only contain a name, not arguments.
-Every declaration ends with a semicolon.
+**Global declarations** can either be function declarations or data declarations.
+Function declarations can contain arguments separated spaces on the left side, the right side of the '=' is a expression.
+
+Data declarations also use the '=' sign, but can't have arguments. They use the 'data' keyword followed by a number indicating how many arguments this constructor shall take.
 
 ```
 main = 5;
+plus5 x = x + 5;
+nil = data 0;
+cons = data 2;
 ```
 
 Expressions can be one of:
-- a constructor
 - a case expression
 - an application of two expressions
-- a lambda abstraction
 - an identifier
 - a constant
 
 Examples for each (assigned to some name):
 ```
-# constructors
-nil = data 0; # a constructor that takes no arguments
-cons = data 2; # a constructor that takes two arguments
-
 # case expression
 # cases are separated by a comma, some constructors take arguments, e.g. cons, these arguments can be namend here, just like in haskell
 nilIsNil = case nil of
@@ -33,10 +32,6 @@ nilIsNil = case nil of
 # every application is in prefix notation, so even built-ins like add need to be written in prefix notation.
 # there is no list of built-in functions yet.
 ten = add 5 5;
-
-# lambda abstraction
-# lambdas are written in the usual style, as of right now a lambda can only take one argument (so you need to chain lambdas).
-plusOne = \x -> add x 1
 
 # identifier
 x = nil;

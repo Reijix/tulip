@@ -17,17 +17,21 @@ instance PrettyPrint Program where
   ppr (Program decls) = Text.intercalate (pack ";\n") (map ppr decls) <> pack ";"
 
 instance PrettyPrint Declaration where
-  ppr (Declaration ident expr) = pack ident <> pack " = " <> ppr expr
+  ppr (FunctionDeclaration ident args expr) = pack ident <> pprArgs args <> pack " = " <> ppr expr
+    where
+      pprArgs [] = Text.empty
+      pprArgs xs = pack " " <> Text.intercalate (pack " ") (map pack xs)
+  ppr (DataDeclaration ident n) = pack ident <> pack " = data " <> pack (show n)
 
 instance PrettyPrint Expression where
   ppr (EConstant lit) = ppr lit
-  ppr (EApp e1 e2) = exprParen e1 <> pack " " <> exprParen e2
+  ppr (EApp e1 e2) = exprParenLeft e1 <> pack " " <> exprParen e2
     where
       exprParen e | isAtomicExpression e = ppr e
       exprParen e = pprParen e
+      exprParenLeft e@EApp {} = ppr e
+      exprParenLeft e = exprParen e
   ppr (ECase e alts) = pack "case " <> ppr e <> pack " of\n" <> Text.intercalate (pack ",\n") (map (pprIndent 4) alts)
-  ppr (ELam ident e) = pack "\\" <> pack ident <> pack ". " <> ppr e
-  ppr (EConstr n) = pack "data " <> pack (show n)
   ppr (EIdent ident) = pack ident
 
 instance PrettyPrint Literal where

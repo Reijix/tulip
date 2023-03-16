@@ -36,16 +36,29 @@ program = Program <$> endBy declaration semi
 -- declarations
 declaration :: Parser Declaration
 declaration = 
-  Declaration 
+  try dataDeclaration 
+    <|> try functionDeclaration 
+    <?> "declaration"
+
+functionDeclaration :: Parser Declaration
+functionDeclaration = 
+  FunctionDeclaration 
     <$> identifier
+    <*> many identifier
     <*> (reserved "=" *> expression)
+
+dataDeclaration :: Parser Declaration
+dataDeclaration = 
+  DataDeclaration
+    <$> identifier
+    <*> (reserved "=" *> reserved "data" *> int)
 
 -- expressions
 expression :: Parser Expression
 expression =
-        try eCase
-        <|> try eLam
-        <|> try eApp
+  try eCase
+  <|> try eApp
+  <?> "expression"
 
 eConstant :: Parser Expression
 eConstant =
@@ -65,27 +78,15 @@ alternative =
     <*> many identifier
     <*> (reservedOp "->" *> expression)
 
-eLam :: Parser Expression
-eLam = 
-  ELam 
-    <$> (reservedOp "\\" *> identifier)
-    <*> (dot *> expression)
-
 atomicExpression :: Parser Expression
 atomicExpression =
   try eConstant
     <|> try eIdent
     <|> try eOp
-    <|> try eConstr
     <|> try (parens expression)
 
 eApp :: Parser Expression
 eApp = foldl1 EApp <$> many1 atomicExpression
-
-eConstr :: Parser Expression
-eConstr = 
-  EConstr
-    <$> (reserved "data" *> int)
 
 eIdent :: Parser Expression
 eIdent = EIdent <$> identifier

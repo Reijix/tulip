@@ -5,21 +5,20 @@ newtype Program = Program [Declaration]
 
 type Identifier = String
 
-data Declaration = Declaration Identifier Expression
+data Declaration 
+  = FunctionDeclaration Identifier [Identifier] Expression
+  | DataDeclaration Identifier Int
   deriving (Eq, Ord, Show)
 
 isAtomicExpression :: Expression -> Bool
 isAtomicExpression (EConstant _) = True
 isAtomicExpression (EIdent _) = True
-isAtomicExpression (EConstr _) = True
 isAtomicExpression _ = False
 
 data Expression
   = EConstant Literal
   | EApp Expression Expression
   | ECase Expression [Alternative]
-  | ELam Identifier Expression
-  | EConstr Int
   | EIdent Identifier
   deriving (Eq, Ord, Show)
 
