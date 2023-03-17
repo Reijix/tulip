@@ -85,6 +85,11 @@ dispatch Sub = arithmetic2 (-)
 dispatch Mul = arithmetic2 (*)
 dispatch Div = arithmetic2 div
 dispatch Eq = comparison (==)
+dispatch Ne = comparison (/=)
+dispatch Lt = comparison (<)
+dispatch Le = comparison (<=)
+dispatch Gt = comparison (>)
+dispatch Ge = comparison (>=)
 dispatch (Pack t as) = pack t as
 dispatch (Casejump ts) = casejump ts
 dispatch (Split n) = split n
@@ -307,6 +312,11 @@ compiledPrimitives = [("add", 2, [Push 1, Eval, Push 1, Eval, Add, Update 2, Pop
                       ("mul", 2, [Push 1, Eval, Push 1, Eval, Mul, Update 2, Pop 2, Unwind]),
                       ("div", 2, [Push 1, Eval, Push 1, Eval, Div, Update 2, Pop 2, Unwind]),
                       ("eq", 2, [Push 1, Eval, Push 1, Eval, Eq, Update 2, Pop 2, Unwind ]),
+                      ("ne", 2, [Push 1, Eval, Push 1, Eval, Ne, Update 2, Pop 2, Unwind ]),
+                      ("lt", 2, [Push 1, Eval, Push 1, Eval, Lt, Update 2, Pop 2, Unwind ]),
+                      ("le", 2, [Push 1, Eval, Push 1, Eval, Le, Update 2, Pop 2, Unwind ]),
+                      ("gt", 2, [Push 1, Eval, Push 1, Eval, Gt, Update 2, Pop 2, Unwind ]),
+                      ("ge", 2, [Push 1, Eval, Push 1, Eval, Ge, Update 2, Pop 2, Unwind ]),
                       ("true", 0, [Pack "true" 0, Update 0, Unwind]),
                       ("false", 0, [Pack "false" 0, Update 0, Unwind])
                         ]

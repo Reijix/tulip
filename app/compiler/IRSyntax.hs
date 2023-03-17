@@ -20,5 +20,5 @@ data Instruction
     | Alloc Int
     | Pop Int
     | Add | Sub | Mul | Div
-    | Eq
+    | Eq | Ne | Lt | Le | Gt | Ge
     deriving (Show)
