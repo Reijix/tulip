@@ -10,7 +10,7 @@ compile :: Program -> [(Identifier, Int, Code)]
 compile (Program decls) = map compileDeclaration decls
 
 compileDeclaration :: Declaration -> (Identifier, Int, Code)
-compileDeclaration (DataDeclaration name args) = (name, args, [])
+compileDeclaration (DataDeclaration name args) = (name, args, [Pack name args, Update 0, Unwind])
 compileDeclaration (FunctionDeclaration name args body) = (name, n, compileC body (Map.fromList $ zip args [0..]) ++ [Update n, Pop n, Unwind])
     where n = length args
 

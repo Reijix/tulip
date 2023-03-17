@@ -28,6 +28,7 @@ import Data.Text
 import System.IO (IOMode (ReadMode), hGetContents, openFile)
 import Compiler
 import Evaluator
+import Results (showResults)
 
 data CmdOption = CmdOption
   { sourceFile :: String,
@@ -77,6 +78,10 @@ run (CmdOption sourceFile ppr) = do
   -- do compilation
   let compiled = compile prog
   
-  --print compiled
-  print $ Evaluator.run compiled
+  -- run program
+  let state = Evaluator.run compiled
+
+  -- show result
+  putStrLn $ showResults "terse" state
+
   return ()

@@ -20,4 +20,5 @@ data Instruction
     | Alloc Int
     | Pop Int
     | Add | Sub | Mul | Div
+    | Eq
     deriving (Show)
