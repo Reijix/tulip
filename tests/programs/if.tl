@@ -1,5 +1,3 @@
-true = data 0;
-false = data 0;
 if cond then else = case cond of
     true -> then,
     false -> else;
