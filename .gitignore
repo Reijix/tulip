@@ -23,3 +23,5 @@ cabal.project.local~
 .ghc.environment.*
 *.out
 tulip.kdev4
+.direnv
+settings.json
