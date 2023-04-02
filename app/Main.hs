@@ -32,7 +32,8 @@ import Results (showResults)
 
 data CmdOption = CmdOption
   { sourceFile :: String,
-    prettyPrint :: Bool
+    prettyPrint :: Bool,
+    debug :: Bool
   }
 
 cmdOption :: Parser CmdOption
@@ -45,6 +46,11 @@ cmdOption =
     <*> switch
       ( short 'p'
           <> help "PrettyPrint the parsed program"
+          <> showDefault
+      )
+    <*> switch
+      ( short 'd'
+          <> help "Debug the compiler, prints AST of program"
           <> showDefault
       )
 
@@ -61,7 +67,7 @@ main = Main.run =<< execParser opts
 
 run :: CmdOption -> IO ()
 -- only lex and parse
-run (CmdOption sourceFile ppr) = do
+run (CmdOption sourceFile ppr dbg) = do
   -- read sourceFile
   source <- openFile sourceFile ReadMode
   sourceText <- hGetContents source
@@ -72,8 +78,17 @@ run (CmdOption sourceFile ppr) = do
         Left err -> error $ show err
         Right prog -> prog
 
-  when ppr (putStrLn . unpack $ PrettyPrint.ppr prog)
-  unless ppr $ print prog
+  -- do pretty print (when specified)
+  when ppr ( do 
+      putStrLn "====================== Source ======================"
+      putStrLn . unpack $ PrettyPrint.ppr prog
+      putStrLn "===================================================="
+    )
+  -- print AST when in debug mode
+  when dbg $ do
+    putStrLn "======================= AST ======================="
+    print prog
+    putStrLn "==================================================="
 
   -- do compilation
   let compiled = compile prog
@@ -83,5 +98,3 @@ run (CmdOption sourceFile ppr) = do
 
   -- show result
   putStrLn $ showResults "terse" state
-
-  return ()
